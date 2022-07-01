@@ -8,15 +8,7 @@ const parsedData = JSON.parse(savedData);
 
 player.on('timeupdate', throttle(onPlay, 1000));
 
-player.setCurrentTime(parsedData.seconds).catch(function (error) {
-  switch (error.name) {
-    case 'RangeError':
-      break;
-
-    default:
-      break;
-  }
-});
+setPlayTime();
 
 function onPlay() {
   player
@@ -31,4 +23,21 @@ function onPlay() {
     .catch(function (error) {
       console.log(error);
     });
+}
+
+function setPlayTime() {
+  let playStartTime = 0;
+  if (parsedData) {
+    playStartTime = parsedData.seconds;
+  }
+
+  player.setCurrentTime(playStartTime).catch(function (error) {
+    switch (error.name) {
+      case 'RangeError':
+        break;
+
+      default:
+        break;
+    }
+  });
 }
